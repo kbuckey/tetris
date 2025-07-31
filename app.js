@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     //shapes
     const jShape = [
-        [1, width+1, width*2+1, 2], 
+        [0, width, width+1, width+2],
+        [0, 1, width, width*2],
         [0, 1, 2, width+2],
-        [1, width+1, width*2+1, width*2],
-        [0, width, width+1, width+2]
+        [1, width+1, width*2, width*2+1]
+        
     ]
     
     const oShape = [
@@ -21,10 +22,11 @@ document.addEventListener('DOMContentLoaded', () =>{
     ]
 
     const lShape = [
-        [0, width, width*2, width*2+1],
         [2, width, width+1, width+2],
-        [0, 1, width+1, width*2+1],
-        [0, 1, 2, width]
+        [0, width, width*2, width*2+1],
+        [0, 1, 2, width],
+        [0, 1, width+1, width*2+1]
+        
     ]
 
     const iShape = [
@@ -50,16 +52,16 @@ document.addEventListener('DOMContentLoaded', () =>{
     ]
 
     const tShape = [
-        [0, 1, 2, width+1],
-        [0, width, width*2, width+1],
         [1, width, width+1, width+2],
+        [0, width, width*2, width+1],
+        [0, 1, 2, width+1],
         [1, width+1, width*2+1, width]
     ]
 
     const theShapes = [jShape, oShape, lShape, iShape, zShape, sShape, tShape]
 
     let currentPosition = 4
-    let currentRotation = 3
+    let currentRotation = 0
 
     //randomly select a shape and its 1st rotation
     let random = Math.floor(Math.random()*theShapes.length)
@@ -71,15 +73,32 @@ document.addEventListener('DOMContentLoaded', () =>{
             squares[currentPosition + index].classList.add('shape')
         })
     }
-    draw()
     //erase the shape
     function erase() {
         current.forEach(index => {
-            squares[currentPostion + index].classList.remove('shape')
+            squares[currentPosition + index].classList.remove('shape')
         })
     }
- 
+    //moving pieces down the grid
+    timerId = setInterval(moveDown, 1000)
 
+    function moveDown() {
+        erase()
+        currentPosition += width
+        draw()
+        freeze()
+    }
 
+    function freeze() {
+        if (current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            //new shape begins falling
+            random = Math.floor(Math.random() * theShapes.length)
+            current = theShapes[random][currentRotation]
+            currentPosition = 4
+            draw()
+
+        }
+    }
 
 })
