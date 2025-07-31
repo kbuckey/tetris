@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', () =>{
     let nextRandom = 0
     let timerId
     let score = 0
+    const colors = [
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'blue',
+        'indigo',
+        'purple'
+    ]
 
     //shapes
     const jShape = [
@@ -74,12 +83,14 @@ document.addEventListener('DOMContentLoaded', () =>{
     function draw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.add('shape')
+            squares[currentPosition + index].style.backgroundColor = colors[random]
         })
     }
     //erase the shape
     function erase() {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('shape')
+            squares[currentPosition + index].style.backgroundColor = ''
         })
     }
     //moving pieces down the grid
@@ -180,9 +191,11 @@ document.addEventListener('DOMContentLoaded', () =>{
     function displayShape() {
         displaySquares.forEach(square => {
             square.classList.remove('shape')
+            square.style.backgroundColor = ''
         })
         upNextShape[nextRandom].forEach(index => {
             displaySquares[displayIndex + index].classList.add('shape')
+            displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom]
         })
     }
 
@@ -209,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () =>{
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
                     squares[index].classList.remove('shape')
+                    squares[index].style.backgroundColor = ''
                 })
                 const squaresRemoved = squares.splice(i, width)
                 squares = squaresRemoved.concat(squares)
