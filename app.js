@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () =>{
             draw()
             displayShape()
             addScore()
+            gameOver()
         }
     }
     //move left, but stop shape from moving outside grid
@@ -214,6 +215,12 @@ document.addEventListener('DOMContentLoaded', () =>{
                 squares.forEach(cell => grid.appendChild(cell))
             }
 
+        }
+    }
+    function gameOver() {
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
+            scoreDisplay.innerHTML = 'end'
+            clearInterval(timerId)
         }
     }
 })
