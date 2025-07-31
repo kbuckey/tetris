@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     const startBtn = document.querySelector('#start-button')
     const width = 10
     let nextRandom = 0
+    let timerId
 
     //shapes
     const jShape = [
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         })
     }
     //moving pieces down the grid
-    timerId = setInterval(moveDown, 1000)
+    //timerId = setInterval(moveDown, 1000)
 
     //assign function to keys
     function control(e) {
@@ -181,4 +182,17 @@ document.addEventListener('DOMContentLoaded', () =>{
             displaySquares[displayIndex + index].classList.add('shape')
         })
     }
+
+    //add button functionality 
+    startBtn.addEventListener('click', () => {
+        if (timerId) {
+            clearInterval(timerId)
+            timerId = null
+        } else {
+            draw()
+            timerId = setInterval(moveDown, 1000)
+            nextRandom = Math.floor(Math.random()*theShapes.length)
+            displayShape()
+        }
+    })
 })
